@@ -1,0 +1,196 @@
+import p1_random as p1
+
+rng = p1.P1Random()
+
+try:
+    player_hand = []
+    dealer_hand = 0
+
+    num_total = 0
+    num_tied = 0
+
+    player_wins = 0
+    dealer_wins = 0
+
+
+    def menu():
+        print("\n1. Get another card"
+              "\n2. Hold hand"
+              "\n3. Print statistics"
+              "\n4. Exit\n")
+
+
+    i = 1
+    while i > 0:
+        print(f"START GAME #{i}\n")
+
+        player_rand_card = rng.next_int(13) + 1
+        player_hand.append(player_rand_card)
+
+        if player_rand_card == 1:
+            player_rand_card = 1
+            print(f"Your card is a ACE!"
+                  f"\nYour hand is: {sum(player_hand)}")
+
+        elif player_rand_card > 10:
+            if player_rand_card == 11:
+                player_rand_card = 10
+
+                print(f"Your card is a JACK!"
+                      f"\nYour hand is: {sum(player_hand)}")
+
+            elif player_rand_card == 12:
+                player_rand_card = 10
+
+                print(f"Your card is a QUEEN!"
+                      f"\nYour hand is: {sum(player_hand)}")
+
+            elif player_rand_card == 13:
+                player_rand_card = 10
+
+                print(f"Your card is a KING!"
+                      f"\nYour hand is: {sum(player_hand)}")
+        else:
+            print(f"Your card is a {player_rand_card}!"
+                  f"\nYour hand is: {sum(player_hand)}")
+
+        menu_selection = 0
+
+        while ((sum(player_hand) < 21) and (dealer_hand < 21)) and menu_selection != 2:
+                menu()
+                menu_selection = int(input("Choose an option: "))
+
+                if int(menu_selection) not in range(1, 4 + 1):
+                    print("Invalid input!")
+                    print("Please enter an integer value between 1 and 4.")
+
+                elif menu_selection == 4:
+                    exit()
+
+                elif menu_selection == 1:
+                    player_rand_card = rng.next_int(13) + 1
+
+                    if player_rand_card == 1:
+                        player_rand_card = 1
+                        player_hand.append(player_rand_card)
+                        print(f"Your card is a ACE!"
+                              f"\nYour hand is: {sum(player_hand)}")
+
+                    if player_rand_card > 10:
+                        if player_rand_card == 11:
+                            player_rand_card = 10
+                            player_hand.append(player_rand_card)
+                            print(f"Your card is a JACK!"
+                                  f"\nYour hand is: {sum(player_hand)}")
+
+                        elif player_rand_card == 12:
+                            player_rand_card = 10
+                            player_hand.append(player_rand_card)
+                            print(f"Your card is a QUEEN!"
+                                  f"\nYour hand is: {sum(player_hand)}")
+
+                        elif player_rand_card == 13:
+                            player_rand_card = 10
+                            player_hand.append(player_rand_card)
+                            print(f"Your card is a KING!"
+                                  f"\nYour hand is: {sum(player_hand)}")
+
+                    elif 1 < player_rand_card <= 10:
+                        player_hand.append(player_rand_card)
+                        print(f"Your card is a {player_rand_card}!"
+                              f"\nYour hand is: {sum(player_hand)}")
+                elif menu_selection == 3:
+                    print(f"\nNumber of Player wins: {player_wins}"
+                          f"\nNumber of Dealer wins: {dealer_wins}"
+                          f"\nNumber of tie games: {num_tied}"
+                          f"\nTotal # of games played is: {num_total}")
+                    if dealer_wins == 0:
+                        print(f"Percentage of Player wins: 100.0%")
+                    else:
+                        print(f"Percentage of Player wins: {100*(player_wins / num_total):.1f}%")
+
+        if sum(player_hand) == 21:
+
+            print("BLACKJACK! You win!")
+            num_total += 1
+            player_wins += 1
+
+        elif sum(player_hand) > 21:
+            print("You exceeded 21! You lose.")
+            num_total += 1
+            dealer_wins += 1
+
+        elif sum(player_hand) == dealer_hand:
+            print("It's a tie! No one wins!")
+            num_total += 1
+            num_tied += 1
+
+        elif dealer_hand > 21:
+            print("You win!")
+            num_total += 1
+            player_wins += 1
+
+        elif sum(player_hand) < dealer_hand:
+            print("Dealer wins!")
+            num_total += 1
+            dealer_wins += 1
+
+        if menu_selection == 2:
+            dealer_rand_card = rng.next_int(11) + 16
+            dealer_hand = dealer_rand_card
+
+            print(f"Dealer's hand: {dealer_hand}"
+                  f"\nYour hand is: {sum(player_hand)}")
+
+            if sum(player_hand) == 21:
+
+                print("BLACKJACK! You win!")
+                num_total += 1
+                player_wins += 1
+
+            elif sum(player_hand) > 21:
+                print("You exceeded 21! You lose.")
+                num_total += 1
+                dealer_wins += 1
+
+            elif sum(player_hand) == dealer_hand:
+                print("It's a tie! No one wins!")
+                num_total += 1
+                num_tied += 1
+
+            elif dealer_hand > 21:
+                print("You win!")
+                num_total += 1
+                player_wins += 1
+
+            elif sum(player_hand) < dealer_hand:
+                print("Dealer wins!")
+                num_total += 1
+                dealer_wins += 1
+
+            elif sum(player_hand) > dealer_hand:
+                print("You Win!")
+                num_total += 1
+                player_wins += 1
+
+            else:
+                print("wtf")
+
+        elif menu_selection == 3:
+            print(f"\nNumber of Player wins: {player_wins}"
+                  f"\nNumber of Dealer wins: {dealer_wins}"
+                  f"\nNumber of tie games: {num_tied}"
+                  f"\nTotal # of games played is: {num_total}")
+            if dealer_wins == 0:
+                print(f"Percentage of Player wins: 100.0%")
+            else:
+                print(f"Percentage of Player wins: {100*(player_wins/num_total):.1f}%")
+
+        list.clear(player_hand)
+        dealer_hand = 0
+        menu_selection = 0
+
+        i += 1
+
+except EOFError:
+    print("EOF")
